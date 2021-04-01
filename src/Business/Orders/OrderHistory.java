@@ -5,10 +5,24 @@
  */
 package Business.Orders;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author psrib
  */
 public class OrderHistory {
+    
+    
+    ArrayList<Order> orderHisotry;
+
+    public ArrayList<Order> getOrderHisotry() {
+        return orderHisotry;
+    }
+
+    public void setOrderHisotry(ArrayList<Order> orderHisotry) {
+        this.orderHisotry = orderHisotry;
+    }
+    
     
 }

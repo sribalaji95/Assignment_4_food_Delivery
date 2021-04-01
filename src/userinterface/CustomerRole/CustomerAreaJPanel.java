@@ -4,18 +4,25 @@
  */
 package userinterface.CustomerRole;
 
+import Business.Customer.Customer;
 import Business.EcoSystem;
 import Business.Menu.Menu;
+import Business.Menu.MenuDirectory;
+import Business.Orders.Order;
+import Business.Orders.OrderHistory;
 import Business.Restaurant.Restaurant;
 
 import Business.UserAccount.UserAccount;
 import Business.WorkQueue.LabTestWorkRequest;
 import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,9 +32,15 @@ import javax.swing.table.DefaultTableModel;
 public class CustomerAreaJPanel extends javax.swing.JPanel {
 
     private JPanel userProcessContainer;
-
+    private String quantity;
     private UserAccount userAccount;
     private EcoSystem system;
+    Menu menu;
+    ArrayList<Menu> ml;
+    DefaultTableModel dtm;
+    private String selectedRestaurantName;
+    private Restaurant resObj;
+    
     /**
      * Creates new form DoctorWorkAreaJPanel
      */
@@ -37,10 +50,37 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         this.userProcessContainer = userProcessContainer;
         this.system = system;
         this.userAccount = account;
+        this.ml = new ArrayList<>();
         //valueLabel.setText(enterprise.getName());
         populateRequestTable();
         populateComboBox();
+        tableListener();
+        
+              
     }
+    
+    public void tableListener(){
+        dtm = (DefaultTableModel) menuItem.getModel();
+        dtm.setRowCount(0);
+       
+        dtm.addTableModelListener(
+            new TableModelListener()
+            {
+                public void tableChanged(TableModelEvent evt)
+                {
+                    
+                    int col = evt.getColumn();
+                    int row = evt.getFirstRow();
+                    System.out.println(row+"as");
+                    System.out.println(col+"as1");
+                    menu = (Menu)dtm.getValueAt(row, 0);
+                    quantity = String.valueOf(dtm.getValueAt(row,2));
+//                    map1.put(course, rating);
+                   
+                }
+            });
+    }
+    
     
     public void populateComboBox(){
          for(Restaurant res: system.getRestaurantDirectory().getRestaurantList()){
@@ -48,43 +88,47 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
          
         }
     }
+    
+    public void addToCart(){
+        
+    }
+    
     public void populateRequestTable(){
         
     }
     
     public void getMenuItems(String resName){
-        
-        JComboBox myComboBox = new JComboBox();
-        for(int i=1;i<=10;i++){
-            myComboBox.addItem(i);
-        }
-       
-
-        
+      
         
         System.out.println("RSSS "+ resName);
-        DefaultTableModel dtm = (DefaultTableModel) menuItem.getModel();
-        dtm.setRowCount(0);
-        
-        
-        // TableCellListener tcl = (TableCellListener)evt.getSource();
-        menuItem.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(myComboBox));
-       // jPanel3.setVisible(true);
-//        Object[] row = new Object[list1.size()];
-//        jTable1.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(myComboBox));
         
         System.out.println("Menu "+ system.getRestaurantDirectory().getRestaurantList().size());
-        Restaurant ro1 = system.getRestaurantDirectory().findRestaurant(resName);
+        resObj = system.getRestaurantDirectory().findRestaurant(resName);
          
-        if(ro1!=null && ro1.getMd()!=null){
-            for(Menu m : ro1.getMd().getMenu()) {
+        if(resObj!=null && resObj.getMd()!=null){
+            for(Menu m : resObj.getMd().getMenu()) {
                 Object row[] = new Object[3];
-                row[0] = m.getItemName();
+                row[0] = m;
                 row[1] = m.getItemPrice();
 
                 dtm.addRow(row);
             }
         }
+    }
+    
+    public void getCartTable(){
+        DefaultTableModel dtm = (DefaultTableModel) orderHistory.getModel();
+        dtm.setRowCount(0);
+        
+         System.out.println("Menu "+ system.getRestaurantDirectory().getRestaurantList().size());
+        for(Order order : system.getOrderHistory().getOrderHisotry()){
+            Object row[] = new Object[2];
+                row[0] = order.getOrderID();
+                row[1] = order.getOrderStatus();
+
+                dtm.addRow(row);
+        }
+        
     }
 
     
@@ -106,12 +150,12 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         restList = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         menuItem = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        placeOrder = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        total = new javax.swing.JLabel();
+        cartBtn = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        orderHistory = new javax.swing.JTable();
 
         workRequestJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -183,29 +227,45 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
             new String [] {
                 "Item name", "Price", "Quantity"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(menuItem);
 
-        jButton1.setText("Add to Cart");
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Item Name", "Quantity", "Price"
+        placeOrder.setText("Place Order");
+        placeOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                placeOrderActionPerformed(evt);
             }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        });
 
         jLabel1.setText("Total Amount");
 
-        jButton2.setText("Place Order");
+        cartBtn.setText("Add to cart");
+        cartBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cartBtnActionPerformed(evt);
+            }
+        });
 
-        jLabel2.setText("jLabel2");
+        orderHistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Order ID", "Order Status"
+            }
+        ));
+        jScrollPane3.setViewportView(orderHistory);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -220,36 +280,32 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
                 .addComponent(refreshTestJButton)
                 .addGap(103, 103, 103))
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cartBtn)
+                .addGap(68, 68, 68)
+                .addComponent(placeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(293, 293, 293)
-                        .addComponent(requestTestJButton))
+                        .addGap(38, 38, 38)
+                        .addComponent(valueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(valueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(221, 221, 221)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(276, 276, 276)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(49, 49, 49)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)))))
-                .addContainerGap(50, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(88, 88, 88))
+                        .addGap(221, 221, 221)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(244, 244, 244)
+                        .addComponent(jLabel1)
+                        .addGap(141, 141, 141)
+                        .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(293, 293, 293)
+                        .addComponent(requestTestJButton)))
+                .addGap(511, 511, 511))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,22 +317,28 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
                         .addComponent(enterpriseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(restList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(valueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(39, 39, 39)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(22, 22, 22)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
-                .addComponent(requestTestJButton)
-                .addGap(52, 52, 52))
+                    .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(placeOrder)
+                            .addComponent(cartBtn))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)
+                        .addComponent(requestTestJButton)
+                        .addGap(52, 52, 52))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -295,26 +357,81 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
    
     private void restListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restListActionPerformed
 
-        getMenuItems(String.valueOf(restList.getSelectedItem()));
+        selectedRestaurantName = String.valueOf(restList.getSelectedItem());
+        getMenuItems(selectedRestaurantName);
                
 
         
     }//GEN-LAST:event_restListActionPerformed
 
+    private void placeOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderActionPerformed
+        // TODO add your handling code here:
+        //Menu m;
+        OrderHistory orderHistory;
+        ArrayList<Order> oh ;
+        if(system.getOrderHistory()==null){
+             orderHistory = new OrderHistory();
+        }else
+             orderHistory = system.getOrderHistory();
+        
+        
+        if(orderHistory.getOrderHisotry()==null){
+            oh = new ArrayList();
+        }else
+            oh = orderHistory.getOrderHisotry();
+            
+        
+        
+        MenuDirectory md = new MenuDirectory();
+        md.setMenu(ml);
+        System.out.println("Menu List "+ ml.size());
+        System.out.println("Menu List "+ ml.get(0).getItemName());
+        Order order = new Order();
+        order.setMenuDirectory(md);
+        order.setRestaurant(resObj);
+        order.setUserAccount(userAccount);
+        oh.add(order);
+        orderHistory.setOrderHisotry(oh);
+        
+        
+        system.setOrderHistory(orderHistory);
+        
+        getCartTable();
+        
+       
+
+    }//GEN-LAST:event_placeOrderActionPerformed
+
+    private void cartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartBtnActionPerformed
+        // TODO add your handling code here:
+        
+        Menu menu1 = new Menu();
+        MenuDirectory md = new MenuDirectory();
+        
+        menu1.setItemName(menu.getItemName());
+        menu1.setItemPrice(menu.getItemPrice());
+        menu1.setQuantity(menu.getQuantity());
+       
+        ml.add(menu1);
+        
+        
+      
+    }//GEN-LAST:event_cartBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cartBtn;
     private javax.swing.JLabel enterpriseLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable menuItem;
+    private javax.swing.JTable orderHistory;
+    private javax.swing.JButton placeOrder;
     private javax.swing.JButton refreshTestJButton;
     private javax.swing.JButton requestTestJButton;
     private javax.swing.JComboBox<String> restList;
+    private javax.swing.JLabel total;
     private javax.swing.JLabel valueLabel;
     private javax.swing.JTable workRequestJTable;
     // End of variables declaration//GEN-END:variables

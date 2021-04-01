@@ -6,12 +6,17 @@ package userinterface;
 
 import Business.EcoSystem;
 import Business.DB4OUtil.DB4OUtil;
+import Business.Menu.Menu;
 
 import Business.Organization;
 import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -206,6 +211,11 @@ public class MainJFrame extends javax.swing.JFrame {
             container.add("workArea", userAccount.getRole().createWorkArea(container, userAccount, system));
             //container.add("workArea",userAccount.getRole().createWorkArea(container, userAccount, inOrganization, inEcoSystem, system));
             layout.next(container);
+            
+            
+            
+               
+            
         }
         
         loginJButton.setEnabled(false);

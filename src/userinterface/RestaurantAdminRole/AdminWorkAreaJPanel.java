@@ -8,6 +8,7 @@ import Business.Restaurant.Restaurant;
 import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+import userinterface.SystemAdminWorkArea.AddRestaurantJPanel;
 import userinterface.SystemAdminWorkArea.CreateCustomerJPanel;
 
 /**
@@ -106,6 +107,10 @@ public class AdminWorkAreaJPanel extends javax.swing.JPanel {
 
     private void manageOrganizationJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageOrganizationJButtonActionPerformed
 
+        ManageOrderJPanel manageOrderJPanel = new ManageOrderJPanel(userProcessContainer, system, resName);
+        userProcessContainer.add("ManagerOrder", manageOrderJPanel);
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.next(userProcessContainer);
     }//GEN-LAST:event_manageOrganizationJButtonActionPerformed
     
     
