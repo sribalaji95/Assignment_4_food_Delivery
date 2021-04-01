@@ -26,7 +26,16 @@ public class Order {
     Restaurant restaurant;
     MenuDirectory menuDirectory;
     DeliveryMan deliveryMan;
+    String comments;
 
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    
     public DeliveryMan getDeliveryMan() {
         return deliveryMan;
     }

@@ -13,6 +13,7 @@ import Business.UserAccount.UserAccount;
 import Business.WorkQueue.LabTestWorkRequest;
 import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,7 +27,7 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
     private EcoSystem system;
     private UserAccount userAccount;
     String deliveryManName;
-    
+    Order order;
     /**
      * Creates new form LabAssistantWorkAreaJPanel
      */
@@ -122,7 +123,7 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
                 assignJButtonActionPerformed(evt);
             }
         });
-        add(assignJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 350, -1, -1));
+        add(assignJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, -1, -1));
 
         processJButton.setText("Process");
         processJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -130,7 +131,7 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
                 processJButtonActionPerformed(evt);
             }
         });
-        add(processJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 350, -1, -1));
+        add(processJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 290, -1, -1));
 
         refreshJButton.setText("Refresh");
         refreshJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -158,16 +159,31 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
 
     private void assignJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignJButtonActionPerformed
 
-        int selectedRow = workRequestJTable.getSelectedRow();
+//        int selectedRow = workRequestJTable.getSelectedRow();
+//        
+//        if (selectedRow < 0){
+//            return;
+//        }
+//        
+//        WorkRequest request = (WorkRequest)workRequestJTable.getValueAt(selectedRow, 0);
+//        request.setReceiver(userAccount);
+//        request.setStatus("Pending");
         
-        if (selectedRow < 0){
+        System.out.println("DDD ");
+        int selectedRow1 = deliveryTable.getSelectedRow();
+        if(selectedRow1 < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        order = (Order)deliveryTable.getValueAt(selectedRow1,3);
+        System.out.println("Order "+ order.getOrderStatus());
+        order.setOrderStatus("On the way");
+              
         
-        WorkRequest request = (WorkRequest)workRequestJTable.getValueAt(selectedRow, 0);
-        request.setReceiver(userAccount);
-        request.setStatus("Pending");
         populateTable();
+        
+        
+        
         
     }//GEN-LAST:event_assignJButtonActionPerformed
 

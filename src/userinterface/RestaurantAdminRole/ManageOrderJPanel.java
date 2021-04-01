@@ -61,8 +61,8 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
             Object row[] = new Object[5];
                 row[0] = order.getOrderID();
                 row[1] = order.getMenuDirectory().getMenu().get(0).getItemName();
-//                row[2] = order.getMenuDirectory().getMenu().get(0).getItemPrice();
-//                row[3] = order.getMenuDirectory().getMenu().get(0).getQuantity();
+                row[2] = order.getMenuDirectory().getMenu().get(0).getItemPrice();
+                row[3] = order.getMenuDirectory().getMenu().get(0).getQuantity();
                 row[4] =  order;
                 dtm.addRow(row);
             }
@@ -115,6 +115,11 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
         });
 
         cancelOrder.setText("Cancel Order");
+        cancelOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelOrderActionPerformed(evt);
+            }
+        });
 
         assignDel.setText("Assign Delivery Man");
         assignDel.addActionListener(new java.awt.event.ActionListener() {
@@ -220,6 +225,7 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
         }
         order = (Order)orderList.getValueAt(selectedRow,4);
         order.setOrderStatus("Accepted");
+         getOrderList();
         
     }//GEN-LAST:event_acceptOrderActionPerformed
 
@@ -232,6 +238,7 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
         }
         order = (Order)orderList.getValueAt(selectedRow,4);
         jPanel1.setVisible(true);
+         getOrderList();
         
     }//GEN-LAST:event_assignDelActionPerformed
 
@@ -242,7 +249,14 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
         DeliveryMan deliveryMan = system.getDeliveryManDirectory().findDeliveryMan(String.valueOf(deliveryCB.getSelectedItem()));
         System.out.println("DDMMMM "+ deliveryMan.getDeliveryManName());
         order.setDeliveryMan(deliveryMan);
+        JOptionPane.showMessageDialog(null,"Success", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+         getOrderList();
     }//GEN-LAST:event_assignToDelActionPerformed
+
+    private void cancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelOrderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancelOrderActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
