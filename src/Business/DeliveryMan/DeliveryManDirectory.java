@@ -47,4 +47,8 @@ public class DeliveryManDirectory {
        }
        return null;
    }
+   
+   public void deleteDeliveryMan(DeliveryMan deliveryMan){
+       deliveryman.remove(deliveryMan);
+   }
 }

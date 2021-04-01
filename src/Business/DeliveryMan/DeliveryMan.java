@@ -39,6 +39,11 @@ public class DeliveryMan {
         this.ratings = ratings;
     }
     
+    @Override
+    public String toString(){
+        return deliveryManName;
+    }
+    
     
     
 }

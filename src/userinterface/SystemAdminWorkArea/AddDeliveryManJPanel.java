@@ -170,6 +170,7 @@ public class AddDeliveryManJPanel extends javax.swing.JPanel {
                systemAdminWorkAreaJPanel.populateTree(); 
             }
         }
+       
         
         
     }//GEN-LAST:event_jButton2ActionPerformed

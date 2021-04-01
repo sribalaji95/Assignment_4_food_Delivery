@@ -5,11 +5,16 @@
  */
 package userinterface.SystemAdminWorkArea;
 
+import Business.Customer.Customer;
 import Business.EcoSystem;
+import Business.Orders.Order;
 import Business.Organization;
+import Business.Restaurant.Restaurant;
 import java.awt.CardLayout;
 import java.awt.Component;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,6 +35,24 @@ public class CustomerDashboardJPanel extends javax.swing.JPanel {
         this.userProcessContainer=userProcessContainer;
         this.system=system;
         this.customerOrg=customerOrg;
+        viewTable();
+    }
+    
+    public void viewTable(){
+        
+        DefaultTableModel dtm = (DefaultTableModel) customerDetails.getModel();
+        dtm.setRowCount(0);
+        
+         System.out.println("Res len "+ system.getRestaurantDirectory().getRestaurantList().size());
+        
+        for(Customer cus : system.getCustomerDirectory().getCustomerList()) {
+            Object row[] = new Object[5];
+            row[0] = cus;
+            row[1] = cus.getCustomerAddress();
+            row[2] = cus.getCustomerPhone();
+            row[3] = cus.getCustomerLandmark();
+            dtm.addRow(row);
+        }
     }
 
     /**
@@ -44,8 +67,10 @@ public class CustomerDashboardJPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        customerDetails = new javax.swing.JTable();
         createNewCustomer = new javax.swing.JButton();
+        updateCustomer = new javax.swing.JButton();
+        deleteCustomer = new javax.swing.JButton();
 
         jLabel1.setText("Customer Dashboard");
 
@@ -56,7 +81,7 @@ public class CustomerDashboardJPanel extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        customerDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -64,15 +89,29 @@ public class CustomerDashboardJPanel extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Customer name", "Customer Address", "Customer Phone no", "Title 4"
+                "Customer name", "Customer Address", "Customer Phone no", "Landmark"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(customerDetails);
 
         createNewCustomer.setText("Create New Customer");
         createNewCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createNewCustomerActionPerformed(evt);
+            }
+        });
+
+        updateCustomer.setText("Update Customer Details");
+        updateCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateCustomerActionPerformed(evt);
+            }
+        });
+
+        deleteCustomer.setText("Delete Customer");
+        deleteCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCustomerActionPerformed(evt);
             }
         });
 
@@ -89,8 +128,13 @@ public class CustomerDashboardJPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(158, 158, 158)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(createNewCustomer)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(createNewCustomer)
+                                .addGap(65, 65, 65)
+                                .addComponent(updateCustomer)
+                                .addGap(51, 51, 51)
+                                .addComponent(deleteCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(200, Short.MAX_VALUE))
         );
@@ -104,7 +148,10 @@ public class CustomerDashboardJPanel extends javax.swing.JPanel {
                 .addGap(45, 45, 45)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(76, 76, 76)
-                .addComponent(createNewCustomer)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(createNewCustomer)
+                    .addComponent(updateCustomer)
+                    .addComponent(deleteCustomer))
                 .addContainerGap(378, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -134,12 +181,42 @@ public class CustomerDashboardJPanel extends javax.swing.JPanel {
         layout.next(userProcessContainer);
     }//GEN-LAST:event_createNewCustomerActionPerformed
 
+    private void updateCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCustomerActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = customerDetails.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        Customer customer = (Customer)customerDetails.getValueAt(selectedRow,0);
+        CustomerDetailsUpdateJPanel customerDetailsUpdateJPanel = new CustomerDetailsUpdateJPanel(userProcessContainer, system, customer);
+        userProcessContainer.add("Update Customer", customerDetailsUpdateJPanel);
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.next(userProcessContainer);
+        
+    }//GEN-LAST:event_updateCustomerActionPerformed
+
+    private void deleteCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCustomerActionPerformed
+        // TODO add your handling code here:
+        
+        int selectedRow = customerDetails.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        Customer customer = (Customer)customerDetails.getValueAt(selectedRow,0);
+        system.getCustomerDirectory().deleteCustomer(customer);
+        viewTable();
+    }//GEN-LAST:event_deleteCustomerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createNewCustomer;
+    private javax.swing.JTable customerDetails;
+    private javax.swing.JButton deleteCustomer;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton updateCustomer;
     // End of variables declaration//GEN-END:variables
 }

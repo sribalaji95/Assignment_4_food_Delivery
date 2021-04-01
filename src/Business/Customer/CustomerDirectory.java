@@ -15,8 +15,18 @@ import java.util.ArrayList;
 public class CustomerDirectory {
       private ArrayList<Organization> organizationList;
 
+      private ArrayList<Customer> customerList;
+
+    public ArrayList<Customer> getCustomerList() {
+        return customerList;
+    }
+
+    public void setCustomerList(ArrayList<Customer> customerList) {
+        this.customerList = customerList;
+    }
     public CustomerDirectory() {
         organizationList = new ArrayList();
+        customerList = new ArrayList();
     }
 
     public ArrayList<Organization> getOrganizationList() {
@@ -34,6 +44,7 @@ public class CustomerDirectory {
     }
     public void deleteCustomer(Customer customer){
         organizationList.remove(customer); 
+        customerList.remove(customer);
     }
     
         public Organization searchOrganization(String organizationName){
@@ -44,4 +55,20 @@ public class CustomerDirectory {
         }
         return null;
     }
+        
+    public Customer createCustomer(String cname, String phone, String landmark, String add){
+        
+        Customer customer = new Customer();
+        customer.setCustomerName(cname);
+        customer.setCustomerPhone(phone);
+        customer.setCustomerLandmark(landmark);
+        customer.setCustomerAddress(add);
+        customerList.add(customer);
+        
+        return customer;
+        
+    }
+    
+ 
+            
 }

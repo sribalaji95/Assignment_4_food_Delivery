@@ -5,6 +5,8 @@
  */
 package userinterface.SystemAdminWorkArea;
 
+import Business.Customer.Customer;
+import Business.Customer.CustomerDirectory;
 import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Organization;
@@ -25,6 +27,7 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
     private JPanel userProcessContainer;
     private EcoSystem system;
     private Organization organization;
+    CustomerDirectory customerDirectory;
     
     public CreateCustomerJPanel(JPanel userProcessContainer,EcoSystem system, Organization organization) {
         initComponents();
@@ -181,9 +184,27 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
         String cuname = cUsername.getText();
         String cpass = cPass.getText();
         System.out.println("CNAme "+ cname);
-        Employee emp = organization.getEmployeeDirectory().createEmployee("cname");
+        
+        Employee emp = organization.getEmployeeDirectory().createEmployee(cname);
         organization.getUserAccountDirectory().createUserAccount(cuname, cpass, emp, new CustomerRole());
-//              
+        system.getCustomerDirectory().createCustomer(cname, cphone, cLand, cAdd);
+
+        
+        if(system.getCustomerDirectory()!=null){
+          customerDirectory = organization.getCustomerDirectory();  
+        }else
+            customerDirectory = new CustomerDirectory();
+        system.setCustomerDirectory(customerDirectory);
+        
+        
+        
+//        if(organization.getCustomerDirectory()==null){
+//            customerDirectory = new CustomerDirectory();
+//        }else{
+//            customerDirectory = organization.getCustomerDirectory();
+//        }
+//        organization.setCustomerDirectory(customerDirectory);
+       
                       
     }//GEN-LAST:event_addCustomerActionPerformed
 

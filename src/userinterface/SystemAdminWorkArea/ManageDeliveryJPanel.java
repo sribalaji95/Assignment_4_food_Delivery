@@ -5,10 +5,12 @@
  */
 package userinterface.SystemAdminWorkArea;
 
+import Business.Customer.Customer;
 import Business.DeliveryMan.DeliveryMan;
 import Business.EcoSystem;
 import Business.Organization;
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,12 +38,12 @@ public class ManageDeliveryJPanel extends javax.swing.JPanel {
     }
     
     public void populateTable(){
-        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel dtm = (DefaultTableModel) deliveryTable.getModel();
         dtm.setRowCount(0);
         if(system.getDeliveryManDirectory().getDeliveryman()!=null){
             for(DeliveryMan dm : system.getDeliveryManDirectory().getDeliveryman()){
                 Object row[] = new Object[3];
-                row[0] = dm.getDeliveryManName();
+                row[0] = dm;
                 row[1] = dm.getDeliAdd();
                 row[2] = dm.getRatings();
 
@@ -62,9 +64,9 @@ public class ManageDeliveryJPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        deliveryTable = new javax.swing.JTable();
+        deleteDeliveryMan = new javax.swing.JButton();
+        updateDelivery = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         jLabel1.setText("Delivery Man Dashboard");
@@ -76,7 +78,7 @@ public class ManageDeliveryJPanel extends javax.swing.JPanel {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        deliveryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -87,11 +89,21 @@ public class ManageDeliveryJPanel extends javax.swing.JPanel {
                 "DeliveryMan Name", "Address", "Ratings"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(deliveryTable);
 
-        jButton2.setText("Delete");
+        deleteDeliveryMan.setText("Delete");
+        deleteDeliveryMan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteDeliveryManActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Update");
+        updateDelivery.setText("Update");
+        updateDelivery.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDeliveryActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Back");
 
@@ -112,9 +124,9 @@ public class ManageDeliveryJPanel extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton1)
                                 .addGap(133, 133, 133)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(deleteDeliveryMan, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(updateDelivery, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(188, Short.MAX_VALUE))
         );
@@ -129,10 +141,10 @@ public class ManageDeliveryJPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3)
+                    .addComponent(updateDelivery)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
-                        .addComponent(jButton2)))
+                        .addComponent(deleteDeliveryMan)))
                 .addContainerGap(468, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -143,16 +155,48 @@ public class ManageDeliveryJPanel extends javax.swing.JPanel {
         userProcessContainer.add("CreateCustomer", addDeliveryManJPanel);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.next(userProcessContainer);
+        populateTable();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void updateDeliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDeliveryActionPerformed
+     
+        // TODO add your handling code here:
+        
+        int selectedRow = deliveryTable.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        DeliveryMan dm = (DeliveryMan)deliveryTable.getValueAt(selectedRow,0);
+       
+        UpdateDeliveryJPanel updateDeliveryJPanel = new UpdateDeliveryJPanel(userProcessContainer, system, dm);
+        userProcessContainer.add("CreateCustomer", updateDeliveryJPanel);
+        CardLayout layout = (CardLayout) userProcessContainer.getLayout();
+        layout.next(userProcessContainer);
+      //  populateTable();
+    }//GEN-LAST:event_updateDeliveryActionPerformed
+
+    private void deleteDeliveryManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDeliveryManActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = deliveryTable.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        DeliveryMan dm = (DeliveryMan)deliveryTable.getValueAt(selectedRow,0);
+        system.getDeliveryManDirectory().deleteDeliveryMan(dm);
+        populateTable();
+        
+    }//GEN-LAST:event_deleteDeliveryManActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton deleteDeliveryMan;
+    private javax.swing.JTable deliveryTable;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton updateDelivery;
     // End of variables declaration//GEN-END:variables
 }

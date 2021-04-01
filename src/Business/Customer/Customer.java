@@ -58,6 +58,7 @@ public class Customer extends Organization{
     
        public Customer() {
         super(Organization.Type.Customer.getValue());
+       
     }
        
     @Override
@@ -65,5 +66,10 @@ public class Customer extends Organization{
         ArrayList<Role> roles = new ArrayList();
         roles.add(new CustomerRole());
         return roles;
+    }
+    
+    @Override
+    public String toString(){
+        return customerName;
     }
 }
