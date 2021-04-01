@@ -28,6 +28,9 @@ public class MenuDirectory {
         this.menu = menu;
     }
     
+    public void deleteMenu(Menu m){
+        menu.remove(m);
+    }
  
     
 }
