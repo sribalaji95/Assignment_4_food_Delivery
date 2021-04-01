@@ -11,4 +11,34 @@ package Business.DeliveryMan;
  */
 public class DeliveryMan {
     
+    String deliveryManName;
+    String deliAdd;
+    int ratings;
+
+    public String getDeliveryManName() {
+        return deliveryManName;
+    }
+
+    public void setDeliveryManName(String deliveryManName) {
+        this.deliveryManName = deliveryManName;
+    }
+
+    public String getDeliAdd() {
+        return deliAdd;
+    }
+
+    public void setDeliAdd(String deliAdd) {
+        this.deliAdd = deliAdd;
+    }
+
+    public int getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(int ratings) {
+        this.ratings = ratings;
+    }
+    
+    
+    
 }

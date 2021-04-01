@@ -24,7 +24,7 @@ public class AddMenuJPanel extends javax.swing.JPanel {
     /**
      * Creates new form AddMenu
      */
-     JPanel userProcessContainer;
+    JPanel userProcessContainer;
     EcoSystem system;
     String resName;
     public AddMenuJPanel(JPanel userProcessContainer, EcoSystem system, String resName) {

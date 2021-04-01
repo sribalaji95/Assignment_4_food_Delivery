@@ -5,10 +5,12 @@
  */
 package userinterface.RestaurantAdminRole;
 
+import Business.DeliveryMan.DeliveryMan;
 import Business.EcoSystem;
 import Business.Orders.Order;
 import Business.Organization;
 import Business.Restaurant.Restaurant;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,7 +26,7 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
     private Organization organization;
     private Restaurant restaurant;
     private String resName;
-    
+    private Order order;
       String name;
          String address;
          String type ;
@@ -36,7 +38,16 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
         this.resName = resName;
        // this.organization=organization;
         //jPanel2.setVisible(false);
+        jPanel1.setVisible(false);
         getOrderList();
+        populateDeliveryManList();
+    }
+    
+    public void populateDeliveryManList(){
+        
+        for(DeliveryMan dm : system.getDeliveryManDirectory().getDeliveryman()){
+            deliveryCB.addItem(dm.getDeliveryManName());
+        }
     }
     
      public void getOrderList(){
@@ -52,7 +63,7 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
                 row[1] = order.getMenuDirectory().getMenu().get(0).getItemName();
 //                row[2] = order.getMenuDirectory().getMenu().get(0).getItemPrice();
 //                row[3] = order.getMenuDirectory().getMenu().get(0).getQuantity();
-                row[4] =  order.getOrderStatus();
+                row[4] =  order;
                 dtm.addRow(row);
             }
         }
@@ -72,9 +83,14 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         orderList = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        acceptOrder = new javax.swing.JButton();
+        cancelOrder = new javax.swing.JButton();
+        assignDel = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        deliveryCB = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        assignToDel = new javax.swing.JButton();
 
         orderList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,11 +107,67 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
 
         jLabel1.setText("View Orders");
 
-        jButton1.setText("Accept Order");
+        acceptOrder.setText("Accept Order");
+        acceptOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                acceptOrderActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancel Order");
+        cancelOrder.setText("Cancel Order");
 
-        jButton3.setText("Assign Delivery Man");
+        assignDel.setText("Assign Delivery Man");
+        assignDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                assignDelActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("List of Available Delivery Man");
+
+        deliveryCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose Delivery Person" }));
+
+        jLabel3.setText("Choose Delivery man");
+
+        assignToDel.setText("Assign");
+        assignToDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                assignToDelActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addComponent(jLabel3)
+                        .addGap(144, 144, 144)
+                        .addComponent(deliveryCB, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(294, 294, 294)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(312, 312, 312)
+                        .addComponent(assignToDel)))
+                .addContainerGap(301, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deliveryCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(42, 42, 42)
+                .addComponent(assignToDel)
+                .addContainerGap(454, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -108,15 +180,17 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(88, 88, 88)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(127, 127, 127)
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(99, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(acceptOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cancelOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(127, 127, 127)
+                                    .addComponent(assignDel, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,19 +201,60 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(256, Short.MAX_VALUE))
+                    .addComponent(acceptOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cancelOrder)
+                    .addComponent(assignDel))
+                .addGap(63, 63, 63)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void acceptOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptOrderActionPerformed
+        // TODO add your handling code here:
+        
+        int selectedRow = orderList.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        order = (Order)orderList.getValueAt(selectedRow,4);
+        order.setOrderStatus("Accepted");
+        
+    }//GEN-LAST:event_acceptOrderActionPerformed
+
+    private void assignDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignDelActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = orderList.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        order = (Order)orderList.getValueAt(selectedRow,4);
+        jPanel1.setVisible(true);
+        
+    }//GEN-LAST:event_assignDelActionPerformed
+
+    private void assignToDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignToDelActionPerformed
+        // TODO add your handling code here:
+        System.out.println("*** "+deliveryCB.getSelectedItem());
+       
+        DeliveryMan deliveryMan = system.getDeliveryManDirectory().findDeliveryMan(String.valueOf(deliveryCB.getSelectedItem()));
+        System.out.println("DDMMMM "+ deliveryMan.getDeliveryManName());
+        order.setDeliveryMan(deliveryMan);
+    }//GEN-LAST:event_assignToDelActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton acceptOrder;
+    private javax.swing.JButton assignDel;
+    private javax.swing.JButton assignToDel;
+    private javax.swing.JButton cancelOrder;
+    private javax.swing.JComboBox<String> deliveryCB;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable orderList;
     // End of variables declaration//GEN-END:variables

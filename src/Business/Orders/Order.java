@@ -5,6 +5,7 @@
  */
 package Business.Orders;
 
+import Business.DeliveryMan.DeliveryMan;
 import Business.Employee.Employee;
 import Business.Menu.Menu;
 import Business.Menu.MenuDirectory;
@@ -24,6 +25,15 @@ public class Order {
     UserAccount userAccount;
     Restaurant restaurant;
     MenuDirectory menuDirectory;
+    DeliveryMan deliveryMan;
+
+    public DeliveryMan getDeliveryMan() {
+        return deliveryMan;
+    }
+
+    public void setDeliveryMan(DeliveryMan deliveryMan) {
+        this.deliveryMan = deliveryMan;
+    }
     private static int count = 1;
 
     public int getOrderID() {
@@ -89,5 +99,9 @@ public class Order {
     }
     
     
+    @Override
+    public String toString() {
+        return orderStatus;
+    }
     
 }
