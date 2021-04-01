@@ -58,12 +58,14 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
         System.out.println("Menu "+ system.getRestaurantDirectory().getRestaurantList().size());
         for(Order order : system.getOrderHistory().getOrderHisotry()){
             if(order.getRestaurant().getName().equals(resName)){
-            Object row[] = new Object[5];
+            Object row[] = new Object[7];
                 row[0] = order.getOrderID();
                 row[1] = order.getMenuDirectory().getMenu().get(0).getItemName();
                 row[2] = order.getMenuDirectory().getMenu().get(0).getItemPrice();
                 row[3] = order.getMenuDirectory().getMenu().get(0).getQuantity();
                 row[4] =  order;
+                row[5]= order.getComments();
+                row[6] = order.getAmount();
                 dtm.addRow(row);
             }
         }
@@ -94,13 +96,13 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
 
         orderList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Order Id", "Item name", "Item Price", "Quantity", "Status"
+                "Order Id", "Item name", "Item Price", "Quantity", "Status", "Comments", "Total Value"
             }
         ));
         jScrollPane1.setViewportView(orderList);

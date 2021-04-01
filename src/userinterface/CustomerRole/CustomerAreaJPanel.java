@@ -16,6 +16,7 @@ import Business.UserAccount.UserAccount;
 import Business.WorkQueue.LabTestWorkRequest;
 import Business.WorkQueue.WorkRequest;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
@@ -42,6 +43,7 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
     private String selectedRestaurantName;
     private Restaurant resObj;
     Order order;
+    Double total1;
     /**
      * Creates new form DoctorWorkAreaJPanel
      */
@@ -52,6 +54,7 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         this.system = system;
         this.userAccount = account;
         this.ml = new ArrayList<>();
+        this.total1 = 0.0;
         //valueLabel.setText(enterprise.getName());
         jPanel1.setVisible(false);
         populateRequestTable();
@@ -124,15 +127,30 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         
          System.out.println("Menu "+ system.getRestaurantDirectory().getRestaurantList().size());
         for(Order order : system.getOrderHistory().getOrderHisotry()){
-            Object row[] = new Object[3];
-                row[0] = order.getOrderID();
-                row[1] = order;
+            Object row[] = new Object[5];
+                row[0] =  order.getOrderID();
+                row[1] =  order;
                 row [2] = order.getRestaurant().getName();
+                row [3] = order.getComments();
+                row [4] = order.getAmount();
                 dtm.addRow(row);
         }
         
     }
 
+    public void getOrderDetails(Order o){
+        DefaultTableModel dtm = (DefaultTableModel) orderDetails.getModel();
+        dtm.setRowCount(0);
+        
+        for(Menu m : o.getMenuDirectory().getMenu()){
+            Object row[] = new Object[3];
+                row[0] = m.getItemName();
+                row[1] = m.getItemPrice();
+                row [2] =m.getQuantity();
+                dtm.addRow(row);
+        }
+        
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -158,6 +176,11 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         orderHistory = new javax.swing.JTable();
         orderReceived = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        orderDetails = new javax.swing.JTable();
+        viewOrderDetail = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        comments = new javax.swing.JTextArea();
 
         refreshTestJButton.setText("Refresh");
         refreshTestJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -208,6 +231,8 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Total Amount");
 
+        total.setText("<<Total>>");
+
         cartBtn.setText("Add to cart");
         cartBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,13 +249,13 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
 
         orderHistory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Order ID", "Order Status", "Restaurant name"
+                "Order ID", "Order Status", "Restaurant name", "Order Comments", "Total Value"
             }
         ));
         jScrollPane3.setViewportView(orderHistory);
@@ -242,32 +267,74 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
             }
         });
 
+        orderDetails.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Item Name", "Price", "Quantity"
+            }
+        ));
+        jScrollPane1.setViewportView(orderDetails);
+
+        viewOrderDetail.setText("View Order Detail");
+        viewOrderDetail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewOrderDetailActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(277, 277, 277)
+                .addGap(141, 141, 141)
+                .addComponent(viewOrderDetail)
+                .addGap(84, 84, 84)
                 .addComponent(orderReceived)
-                .addContainerGap(377, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(603, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(129, 129, 129)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(243, Short.MAX_VALUE)))
+                    .addContainerGap(632, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(orderReceived)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(orderReceived)
+                    .addComponent(viewOrderDetail))
+                .addContainerGap(275, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(11, 11, 11)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(268, Short.MAX_VALUE)))
+                    .addContainerGap(338, Short.MAX_VALUE)))
         );
+
+        comments.setColumns(20);
+        comments.setRows(5);
+        comments.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                commentsFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                commentsFocusLost(evt);
+            }
+        });
+        jScrollPane4.setViewportView(comments);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -276,29 +343,26 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(244, 244, 244)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(471, 471, 471)
                                 .addComponent(jLabel1)
-                                .addGap(141, 141, 141)
-                                .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(29, 29, 29)
+                                .addComponent(total, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(38, 38, 38)
                                 .addComponent(valueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(53, 53, 53)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(cartBtn)
                         .addGap(132, 132, 132)
                         .addComponent(placeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(80, 80, 80)
-                        .addComponent(trackOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(trackOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(enterpriseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,7 +384,8 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(valueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -383,6 +448,8 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         order.setMenuDirectory(md);
         order.setRestaurant(resObj);
         order.setUserAccount(userAccount);
+        order.setComments(comments.getText());
+        order.setAmount(total1);
         oh.add(order);
         orderHistory.setOrderHisotry(oh);
         
@@ -390,7 +457,8 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         system.setOrderHistory(orderHistory);
         
         getCartTable();
-        
+        JOptionPane.showMessageDialog(null,"Order Placed Successfully"
+                , "INFO", JOptionPane.INFORMATION_MESSAGE);
        
 
     }//GEN-LAST:event_placeOrderActionPerformed
@@ -407,6 +475,11 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
        
         ml.add(menu1);
         
+        total1 = total1 + menu.getItemPrice() * Integer.parseInt(quantity);
+        this.total.setText(String.valueOf(total1));
+        JOptionPane.showMessageDialog(null,"Item added to cart. Please add more items or Place Order to Proceed"
+                , "INFO", JOptionPane.INFORMATION_MESSAGE);
+
         
       
     }//GEN-LAST:event_cartBtnActionPerformed
@@ -432,14 +505,48 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
         
     }//GEN-LAST:event_orderReceivedActionPerformed
 
+    private void viewOrderDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewOrderDetailActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = orderHistory.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        order = (Order)orderHistory.getValueAt(selectedRow,1);
+        getOrderDetails(order);
+        
+        
+    }//GEN-LAST:event_viewOrderDetailActionPerformed
+
+    private void commentsFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commentsFocusGained
+        // TODO add your handling code here:
+        if(comments.getText().equals("")){
+            comments.setText("Enter the comments here");
+            
+        }
+    }//GEN-LAST:event_commentsFocusGained
+
+    private void commentsFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_commentsFocusLost
+        // TODO add your handling code here:
+        if(comments.getText().equals("")){
+            comments.setText("Enter the comments here");
+           
+        }
+        
+    }//GEN-LAST:event_commentsFocusLost
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cartBtn;
+    private javax.swing.JTextArea comments;
     private javax.swing.JLabel enterpriseLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable menuItem;
+    private javax.swing.JTable orderDetails;
     private javax.swing.JTable orderHistory;
     private javax.swing.JButton orderReceived;
     private javax.swing.JButton placeOrder;
@@ -448,5 +555,6 @@ public class CustomerAreaJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel total;
     private javax.swing.JButton trackOrder;
     private javax.swing.JLabel valueLabel;
+    private javax.swing.JButton viewOrderDetail;
     // End of variables declaration//GEN-END:variables
 }

@@ -251,7 +251,8 @@ public class AddRestaurantJPanel extends javax.swing.JPanel {
          type = restType.getName();
          //enterprise= system.getEnterpriseDirectory().createAndAddEnterprise(name,address,Restaurant);
          
-         
+        JOptionPane.showMessageDialog(null,"Success", "Restaurant Added please add manager!", JOptionPane.INFORMATION_MESSAGE);
+
          jPanel2.setVisible(true);
          
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -285,7 +286,8 @@ public class AddRestaurantJPanel extends javax.swing.JPanel {
                 
         Employee emp = system.getEmployeeDirectory().createEmployee(managerName);
         system.getUserAccountDirectory().createUserAccount(uname, pass, emp, new AdminRole());
-        
+        JOptionPane.showMessageDialog(null,"Success", "Manager added to this Restaurant!", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_addManagerActionPerformed
 
 

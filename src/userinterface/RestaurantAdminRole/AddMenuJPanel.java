@@ -259,8 +259,7 @@ public class AddMenuJPanel extends javax.swing.JPanel {
         m.setItemName(menuIt);
         m.setItemPrice(ip);
         Restaurant ro = system.getRestaurantDirectory().findRestaurant(resName);
-        System.out.println("ROOO "+ ro);
-        
+       
         if(ro.getMd() == null){
             MenuDirectory md = new MenuDirectory();
             ArrayList<Menu> am  = new ArrayList<>();
@@ -277,6 +276,8 @@ public class AddMenuJPanel extends javax.swing.JPanel {
             md.setMenu(am);
             ro.setMd(md);
         }
+        JOptionPane.showMessageDialog(null,"Success", "Menu Added", JOptionPane.INFORMATION_MESSAGE);
+
         viewTable();
       
     }//GEN-LAST:event_addMenuActionPerformed
@@ -291,6 +292,8 @@ public class AddMenuJPanel extends javax.swing.JPanel {
         }
         menu = (Menu)menuTable.getValueAt(selectedRow,0);
         ro1.getMd().deleteMenu(menu);
+        JOptionPane.showMessageDialog(null,"Success", "Menu Deleted", JOptionPane.INFORMATION_MESSAGE);
+
         viewTable();
     }//GEN-LAST:event_deleteMenuActionPerformed
 
@@ -305,7 +308,8 @@ public class AddMenuJPanel extends javax.swing.JPanel {
         menu = (Menu)menuTable.getValueAt(selectedRow,0);
         updateMenuItem.setText(menu.getItemName());
         updateItemPrice.setText(String.valueOf(menu.getItemPrice()));
-        
+        JOptionPane.showMessageDialog(null,"Success", "Menu Updated", JOptionPane.INFORMATION_MESSAGE);
+
         
         
         
