@@ -5,6 +5,7 @@
  */
 package Business.Orders;
 
+import Business.Customer.Customer;
 import Business.DeliveryMan.DeliveryMan;
 import Business.Employee.Employee;
 import Business.Menu.Menu;
@@ -27,7 +28,17 @@ public class Order {
     MenuDirectory menuDirectory;
     DeliveryMan deliveryMan;
     String comments;
+    Double amount;
+    Customer customer;
 
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+            
     public String getComments() {
         return comments;
     }
