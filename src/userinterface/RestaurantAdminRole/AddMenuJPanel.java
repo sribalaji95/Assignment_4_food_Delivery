@@ -276,7 +276,7 @@ public class AddMenuJPanel extends javax.swing.JPanel {
             md.setMenu(am);
             ro.setMd(md);
         }
-        JOptionPane.showMessageDialog(null,"Success", "Menu Added", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Menu Added", "Success", JOptionPane.INFORMATION_MESSAGE);
 
         viewTable();
       
@@ -292,7 +292,7 @@ public class AddMenuJPanel extends javax.swing.JPanel {
         }
         menu = (Menu)menuTable.getValueAt(selectedRow,0);
         ro1.getMd().deleteMenu(menu);
-        JOptionPane.showMessageDialog(null,"Success", "Menu Deleted", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Menu Deleted", "Success", JOptionPane.INFORMATION_MESSAGE);
 
         viewTable();
     }//GEN-LAST:event_deleteMenuActionPerformed
@@ -308,7 +308,7 @@ public class AddMenuJPanel extends javax.swing.JPanel {
         menu = (Menu)menuTable.getValueAt(selectedRow,0);
         updateMenuItem.setText(menu.getItemName());
         updateItemPrice.setText(String.valueOf(menu.getItemPrice()));
-        JOptionPane.showMessageDialog(null,"Success", "Menu Updated", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Menu Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
 
         
         

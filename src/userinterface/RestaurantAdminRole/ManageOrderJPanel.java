@@ -246,10 +246,8 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
 
     private void assignToDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignToDelActionPerformed
         // TODO add your handling code here:
-        System.out.println("*** "+deliveryCB.getSelectedItem());
        
         DeliveryMan deliveryMan = system.getDeliveryManDirectory().findDeliveryMan(String.valueOf(deliveryCB.getSelectedItem()));
-        System.out.println("DDMMMM "+ deliveryMan.getDeliveryManName());
         order.setDeliveryMan(deliveryMan);
         JOptionPane.showMessageDialog(null,"Success", "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -258,6 +256,15 @@ public class ManageOrderJPanel extends javax.swing.JPanel {
 
     private void cancelOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelOrderActionPerformed
         // TODO add your handling code here:
+        int selectedRow = orderList.getSelectedRow();
+        if(selectedRow < 0) {
+            JOptionPane.showMessageDialog(null,"Please Select a row from table first", "Warining", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        order = (Order)orderList.getValueAt(selectedRow,4);
+        order.setOrderStatus("Cancelled");
+         getOrderList();
+        
     }//GEN-LAST:event_cancelOrderActionPerformed
 
 

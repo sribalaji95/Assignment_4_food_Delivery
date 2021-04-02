@@ -62,7 +62,11 @@ public class Restaurant {
     public void setManager(String manager) {
         this.manager = manager;
     }
-       
+    
+    @Override
+    public String toString(){
+        return name;
+    }
     
     
 }
