@@ -4,6 +4,7 @@
  */
 package userinterface.DeliveryManRole;
 
+import Business.DeliveryMan.DeliveryMan;
 import Business.EcoSystem;
 import Business.Menu.Menu;
 import Business.Orders.Order;
@@ -41,6 +42,8 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
         this.deliveryManName = userAccount.getUsername();
         
         populateTable();
+        DeliveryMan dm = system.getDeliveryManDirectory().findDeliveryMan(userAccount.getUsername());
+        jLabel1.setText(String.valueOf(dm.getRatings()));
     }
     
     public void populateTable(){
@@ -50,16 +53,20 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
         
                  
         for(Order o : system.getOrderHistory().getOrderHisotry()){
-            if(o.getDeliveryMan().getDeliveryManName().equals(deliveryManName)){
-                Object row[] = new Object[6];
-                row[0] = o.getOrderID();
-                row[1] = o.getRestaurant().getName();
-                row[2] = o.getUserAccount().getUsername();
-                row[3] = o;
-                row[4] = o.getComments();
-                row[5] = o.getAmount();
-               // row[6] = 
-                dtm.addRow(row);
+            if(o.getDeliveryMan()!=null){
+                if(o.getDeliveryMan().getDeliveryManName().equals(deliveryManName)){
+                    Object row[] = new Object[6];
+                    row[0] = o.getOrderID();
+                    row[1] = o.getRestaurant().getName();
+                    row[2] = o.getUserAccount().getUsername();
+                    row[3] = o;
+                    row[4] = o.getComments();
+                    row[5] = o.getAmount();
+                   // row[6] = 
+                    dtm.addRow(row);
+                }
+            }else{
+                System.out.println("Orders not found");
             }
         } 
          
@@ -79,6 +86,8 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         deliveryTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -88,7 +97,7 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
                 assignJButtonActionPerformed(evt);
             }
         });
-        add(assignJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 280, -1, -1));
+        add(assignJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 130, 50));
 
         refreshJButton.setText("Refresh");
         refreshJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +105,7 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
                 refreshJButtonActionPerformed(evt);
             }
         });
-        add(refreshJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 26, -1, -1));
+        add(refreshJButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 40, -1, -1));
 
         deliveryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -114,7 +123,14 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
         add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(92, 90, 720, 140));
 
         jLabel1.setText("<<Ratings>>");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, 110, -1));
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 290, 110, -1));
+
+        jLabel2.setText("Ratings");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 290, 50, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel3.setText("Order Details");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 190, 30));
     }// </editor-fold>//GEN-END:initComponents
 
     private void assignJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assignJButtonActionPerformed
@@ -155,6 +171,8 @@ public class DeliveryManWorkAreaJPanel extends javax.swing.JPanel {
     private javax.swing.JButton assignJButton;
     private javax.swing.JTable deliveryTable;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton refreshJButton;
     // End of variables declaration//GEN-END:variables

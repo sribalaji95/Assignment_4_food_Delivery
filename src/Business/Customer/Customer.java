@@ -21,7 +21,7 @@ public class Customer extends Organization{
     
     String customerName;
     String customerAddress;
-    String customerPhone;
+    int customerPhone;
     String customerLandmark;
 
     public String getCustomerName() {
@@ -40,11 +40,11 @@ public class Customer extends Organization{
         this.customerAddress = customerAddress;
     }
 
-    public String getCustomerPhone() {
+    public int getCustomerPhone() {
         return customerPhone;
     }
 
-    public void setCustomerPhone(String customerPhone) {
+    public void setCustomerPhone(int customerPhone) {
         this.customerPhone = customerPhone;
     }
 

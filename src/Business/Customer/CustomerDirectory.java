@@ -56,7 +56,7 @@ public class CustomerDirectory {
         return null;
     }
         
-    public Customer createCustomer(String cname, String phone, String landmark, String add){
+    public Customer createCustomer(String cname, int phone, String landmark, String add){
         
         Customer customer = new Customer();
         customer.setCustomerName(cname);

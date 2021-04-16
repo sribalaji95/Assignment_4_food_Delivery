@@ -10,6 +10,9 @@ import Business.Menu.Menu;
 import Business.Restaurant.Restaurant;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import userinterface.SystemAdminWorkArea.SystemAdminWorkAreaJPanel;
 
@@ -35,7 +38,19 @@ public class ManageRestaurantJPanel extends javax.swing.JPanel {
         this.resName = resName;
         restName.setText(ro1.getName());
         restAdd.setText(ro1.getAddress());
-        restType.addItem(ro1.getType());
+        restType.addItem(String.valueOf(ro1.getType()));
+        if(String.valueOf(ro1.getType()).equals("Veg")){
+            restType.addItem("Non Veg");
+            restType.addItem("Both");
+        }else if(String.valueOf(ro1.getType()).equals("Non Veg")){
+            restType.addItem("Veg");
+            restType.addItem("Both");
+        }
+        else{
+            restType.addItem("Non Veg");
+            restType.addItem("Veg");
+        }
+        
     }   
 
     /**
@@ -57,6 +72,7 @@ public class ManageRestaurantJPanel extends javax.swing.JPanel {
         restType = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Update Restaurant Details");
 
         jLabel2.setText("Restaurant Name");
@@ -72,7 +88,16 @@ public class ManageRestaurantJPanel extends javax.swing.JPanel {
 
         jLabel4.setText("Type");
 
-        restType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Veg", "Non Veg", "Both", " " }));
+        restType.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                restTypeMouseClicked(evt);
+            }
+        });
+        restType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restTypeActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Back");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -86,36 +111,37 @@ public class ManageRestaurantJPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(145, 145, 145)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
-                        .addGap(82, 82, 82)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(restName)
-                            .addComponent(restAdd)
-                            .addComponent(restType, 0, 168, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(145, 145, 145)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                            .addGap(82, 82, 82)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(restName)
+                                .addComponent(restAdd)
+                                .addComponent(restType, 0, 168, Short.MAX_VALUE)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(137, 137, 137)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(276, 276, 276)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(137, 137, 137)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(501, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(58, 58, 58)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
-                .addGap(52, 52, 52)
+                .addGap(61, 61, 61)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(restName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -128,8 +154,8 @@ public class ManageRestaurantJPanel extends javax.swing.JPanel {
                     .addComponent(jLabel4)
                     .addComponent(restType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(59, 59, 59)
-                .addComponent(jButton1)
-                .addContainerGap(321, Short.MAX_VALUE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(301, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -139,7 +165,8 @@ public class ManageRestaurantJPanel extends javax.swing.JPanel {
         ro1.setName(restName.getText());
         ro1.setType(String.valueOf(restType.getSelectedItem()));
         ro1.setAddress(restAdd.getText());
-        
+        JOptionPane.showMessageDialog(null,"Update Success", "Success", JOptionPane.INFORMATION_MESSAGE);
+
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -157,6 +184,28 @@ public class ManageRestaurantJPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void restTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restTypeActionPerformed
+        // TODO add your handling code here:
+//        System.out.println("Clicked !!");
+//        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+//        model.addElement("Veg");
+//        model.addElement("Non Veg");
+//        model.addElement("Both");
+//        restType.setModel( model );
+    }//GEN-LAST:event_restTypeActionPerformed
+
+    private void restTypeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restTypeMouseClicked
+        // TODO add your handling code here:
+//             System.out.println("Mouse Clicked !!");
+//                DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+//        model.addElement("Veg");
+//        model.addElement("Non Veg");
+//        model.addElement("Both");
+//        restType.setModel( model );
+        
+        
+    }//GEN-LAST:event_restTypeMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

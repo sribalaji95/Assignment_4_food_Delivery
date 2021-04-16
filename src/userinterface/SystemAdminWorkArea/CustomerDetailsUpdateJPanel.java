@@ -33,7 +33,7 @@ public class CustomerDetailsUpdateJPanel extends javax.swing.JPanel {
         this.system=system;
         this.customer=customer;
         cName.setText(customer.getCustomerName());
-        cPhone.setText(customer.getCustomerPhone());
+        cPhone.setText(String.valueOf(customer.getCustomerPhone()));
         cLand.setText(customer.getCustomerLandmark());
         cAdd.setText(customer.getCustomerAddress());
 
@@ -60,6 +60,7 @@ public class CustomerDetailsUpdateJPanel extends javax.swing.JPanel {
         updateCustomer = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Update Customer Details");
 
         jLabel2.setText("Customer Name");
@@ -105,15 +106,15 @@ public class CustomerDetailsUpdateJPanel extends javax.swing.JPanel {
                                 .addComponent(jButton1)
                                 .addGap(112, 112, 112)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cName, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cLand, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(305, 305, 305)
-                        .addComponent(updateCustomer)))
-                .addContainerGap(447, Short.MAX_VALUE))
+                        .addComponent(updateCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(405, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -140,8 +141,8 @@ public class CustomerDetailsUpdateJPanel extends javax.swing.JPanel {
                     .addComponent(jLabel5)
                     .addComponent(cLand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61)
-                .addComponent(updateCustomer)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addComponent(updateCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(228, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -150,7 +151,7 @@ public class CustomerDetailsUpdateJPanel extends javax.swing.JPanel {
         String cname = cName.getText();
         String add = cAdd.getText();
         String land = cLand.getText();
-        String phone = cPhone.getText();
+        int phone = Integer.parseInt(cPhone.getText());
         
         customer.setCustomerName(cname);
         customer.setCustomerPhone(phone);

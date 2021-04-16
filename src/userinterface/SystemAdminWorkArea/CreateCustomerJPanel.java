@@ -13,6 +13,7 @@ import Business.Organization;
 import Business.Role.CustomerRole;
 import java.awt.CardLayout;
 import java.awt.Component;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -59,18 +60,28 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         cUsername = new javax.swing.JTextField();
-        cPass = new javax.swing.JTextField();
         createCustBack = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        cPass = new javax.swing.JPasswordField();
 
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Create Customer");
+        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(213, 37, 215, 47));
 
         jLabel2.setText("Customer Name");
+        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 133, -1, -1));
 
         jLabel3.setText("Customer Address");
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(136, 256, -1, -1));
 
         jLabel4.setText("Customer Phone no.");
+        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(125, 200, -1, -1));
+        add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(129, 335, -1, -1));
 
         jLabel6.setText("Customer Landmark");
+        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(126, 304, -1, -1));
 
         addCustomer.setText("Create");
         addCustomer.addActionListener(new java.awt.event.ActionListener() {
@@ -78,16 +89,24 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
                 addCustomerActionPerformed(evt);
             }
         });
+        add(addCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 466, 95, 37));
+        add(cName, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 130, 151, -1));
 
         cPhone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cPhoneActionPerformed(evt);
             }
         });
+        add(cPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 197, 151, -1));
+        add(cAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 253, 151, -1));
+        add(cLandmark, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 301, 151, -1));
 
         jLabel7.setText("Customer Username");
+        add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(124, 355, -1, -1));
 
         jLabel8.setText("Customer Password");
+        add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(127, 410, -1, -1));
+        add(cUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(333, 352, 151, -1));
 
         createCustBack.setText("Back");
         createCustBack.addActionListener(new java.awt.event.ActionListener() {
@@ -95,95 +114,47 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
                 createCustBackActionPerformed(evt);
             }
         });
+        add(createCustBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, 472, 83, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(124, 124, 124)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(112, 112, 112))
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addGap(92, 92, 92)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cPhone)
-                            .addComponent(cAddress)
-                            .addComponent(cLandmark)
-                            .addComponent(cName, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cUsername, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(250, 250, 250)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(135, 135, 135)
-                        .addComponent(createCustBack)
-                        .addGap(71, 71, 71)
-                        .addComponent(addCustomer)))
-                .addContainerGap(450, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(cName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(cPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(cLandmark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(cUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(cPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addCustomer)
-                    .addComponent(createCustBack))
-                .addGap(170, 170, 170))
-        );
+        jLabel9.setForeground(new java.awt.Color(255, 0, 0));
+        add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 200, -1, -1));
+        add(cPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 410, 150, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void cPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cPhoneActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_cPhoneActionPerformed
 
     private void addCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCustomerActionPerformed
         // TODO add your handling code here:
         String cname = cName.getText();
-        String cphone = cPhone.getText();
+        int cphone=0; 
+        
         String cAdd = cAddress.getText();
         String cLand = cLandmark.getText();
         String cuname = cUsername.getText();
-        String cpass = cPass.getText();
+        char[] passa = cPass.getPassword();
+        String cpass = String.valueOf(passa);
+        //String cpass = cPass.getSelectedText();
         System.out.println("CNAme "+ cname);
+        
+        if(cname.isEmpty() || cAdd.isEmpty() || cLand.isEmpty() || cuname.isEmpty() || cpass.isEmpty()){
+           JOptionPane.showMessageDialog(null,"All the fields are required", "Success", JOptionPane.ERROR_MESSAGE);
+           return;
+        }
+        try {
+            cphone = Integer.parseInt(cPhone.getText());
+        } catch (NumberFormatException nfe) {
+            cPhone.setText("");
+            jLabel9.setText("Only numbers are allowed (10 digits)");
+            return;
+        }
+        
+        if(!organization.getUserAccountDirectory().checkIfUsernameIsUnique(cuname)){
+            JOptionPane.showMessageDialog(null,"This user already exists", "Success", JOptionPane.ERROR_MESSAGE);
+           return; 
+        }
         
         Employee emp = organization.getEmployeeDirectory().createEmployee(cname);
         organization.getUserAccountDirectory().createUserAccount(cuname, cpass, emp, new CustomerRole());
@@ -196,7 +167,8 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
             customerDirectory = new CustomerDirectory();
         system.setCustomerDirectory(customerDirectory);
         
-        
+        JOptionPane.showMessageDialog(null,"Customer Added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
         
 //        if(organization.getCustomerDirectory()==null){
 //            customerDirectory = new CustomerDirectory();
@@ -211,7 +183,7 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
     private void createCustBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createCustBackActionPerformed
         // TODO add your handling code here:
         
-         userProcessContainer.remove(this);
+        userProcessContainer.remove(this);
         CardLayout layout = (CardLayout) userProcessContainer.getLayout();
         layout.previous(userProcessContainer);
         
@@ -222,6 +194,7 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
                systemAdminWorkAreaJPanel.populateTree(); 
             }
         }
+       
     }//GEN-LAST:event_createCustBackActionPerformed
 
 
@@ -230,7 +203,7 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
     private javax.swing.JTextField cAddress;
     private javax.swing.JTextField cLandmark;
     private javax.swing.JTextField cName;
-    private javax.swing.JTextField cPass;
+    private javax.swing.JPasswordField cPass;
     private javax.swing.JTextField cPhone;
     private javax.swing.JTextField cUsername;
     private javax.swing.JButton createCustBack;
@@ -242,5 +215,6 @@ public class CreateCustomerJPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     // End of variables declaration//GEN-END:variables
 }

@@ -14,7 +14,17 @@ public class DeliveryMan {
     String deliveryManName;
     String deliAdd;
     int ratings;
+    boolean status = true;
 
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    
+    
     public String getDeliveryManName() {
         return deliveryManName;
     }
